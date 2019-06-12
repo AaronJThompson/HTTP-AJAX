@@ -67,7 +67,15 @@ class App extends React.Component {
     })
   }
   selectFriend = (id) => {
-    this.setState({currentFriend:id, updating:true})
+    this.setState(state => {
+      let friend = state.friends.find((f) => f.id === id)
+      return {
+        currentFriend:id,
+        updating:true,
+        nameValue: friend.name,
+        ageValue: friend.age,
+        emailValue: friend.email}
+    })
   }
   deleteFriend = (id) => {
     axios
