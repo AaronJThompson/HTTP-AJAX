@@ -18,16 +18,23 @@ const StyledFriend = styled.div`
         text-align: center;
         width: 30%;
     }
+
+    button {
+        justify-self:flex-end;
+    }
 `;
 
 export default function Friend(props) {
-    const { name, age, email } = props;
-
+    const { name, age, email, deleteFriend, id } = props;
+    let deleteFriendWithID = (e) => {
+        deleteFriend(id);
+    }
     return (
         <StyledFriend>
             <span>{name}</span>
             <span>{age}</span>
             <span>{email}</span>
+            <button onClick={deleteFriendWithID}>X</button>
         </StyledFriend>
     )
 }

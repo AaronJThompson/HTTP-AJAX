@@ -52,11 +52,15 @@ class App extends React.Component {
       return {nameValue: '', ageValue: '', emailValue: ''}
     })
   }
-
+  deleteFriend = (id) => {
+    axios
+      .delete(`http://localhost:5000/friends/${id}`)
+      .then(this.updateFriends)
+  }
   render () {
     return (
       <div className="App">
-        <FriendList friends={this.state.friends} />
+        <FriendList friends={this.state.friends} deleteFriend={this.deleteFriend} />
         <FriendForm
           addFriend={this.addFriend}
           nameInput={this.nameInputChange}
