@@ -16,22 +16,25 @@ class App extends React.Component {
       emailValue: '',
     }
   }
-
-  componentDidMount() {
+  updateFriends = () => {
     axios
-      .get('http://localhost:5000/friends')
-      .then(response => {
-        this.setState({
-          friends: response.data
-        })
+    .get('http://localhost:5000/friends')
+    .then(response => {
+      this.setState({
+        friends: response.data
       })
-      .catch(error => {
-        console.log('Error when getting friends:', error)
-      })
+    })
+    .catch(error => {
+      console.log('Error when getting friends:', error)
+    })
+  }
+  componentDidMount() {
+    this.updateFriends();
   }
   addFriendAPI = (name, age, email) => {
     axios
-      .post('http://localhost:5000/friends', {name:name, age:age, email:email});
+      .post('http://localhost:5000/friends', {name:name, age:age, email:email})
+      .then(this.updateFriends());
   }
   nameInputChange = (event) => {
     this.setState({nameValue: event.target.value});
