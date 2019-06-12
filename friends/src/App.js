@@ -30,13 +30,18 @@ class App extends React.Component {
       console.log('Error when getting friends:', error)
     })
   }
+  updateFriendsWithData = (data) => {
+    this.setState({
+      friends: data
+    })
+  }
   componentDidMount() {
     this.updateFriends();
   }
   addFriendAPI = (name, age, email) => {
     axios
       .post('http://localhost:5000/friends', {name:name, age:age, email:email})
-      .then(this.updateFriends());
+      .then(res => this.updateFriendsWithData(res.data));
   }
   nameInputChange = (event) => {
     this.setState({nameValue: event.target.value});
@@ -57,7 +62,7 @@ class App extends React.Component {
   updateFriendAPI = (name, age, email) => {
     axios
       .put(`http://localhost:5000/friends/${this.state.currentFriend}`, {name:name, age:age, email:email})
-      .then(this.updateFriends());
+      .then(res => this.updateFriendsWithData(res.data));
   }
   updateFriend = (event) => {
     event.preventDefault();
@@ -80,7 +85,7 @@ class App extends React.Component {
   deleteFriend = (id) => {
     axios
       .delete(`http://localhost:5000/friends/${id}`)
-      .then(this.updateFriends)
+      .then(res => this.updateFriendsWithData(res.data));
   }
   render () {
     return (
