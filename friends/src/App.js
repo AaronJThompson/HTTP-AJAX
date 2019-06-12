@@ -29,7 +29,10 @@ class App extends React.Component {
         console.log('Error when getting friends:', error)
       })
   }
-
+  addFriendAPI = (name, age, email) => {
+    axios
+      .post('http://localhost:5000/friends', {name:name, age:age, email:email});
+  }
   nameInputChange = (event) => {
     this.setState({nameValue: event.target.value});
   }
@@ -41,7 +44,10 @@ class App extends React.Component {
   }
   addFriend = (event) => {
     event.preventDefault();
-    console.log('Tried to add friend');
+    this.setState(state => {
+      this.addFriendAPI(state.nameValue, parseInt(state.ageValue), state.emailValue);
+      return {nameValue: '', ageValue: '', emailValue: ''}
+    })
   }
 
   render () {
