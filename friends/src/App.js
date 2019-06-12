@@ -14,6 +14,8 @@ class App extends React.Component {
       nameValue: '',
       ageValue: '',
       emailValue: '',
+      updating: false,
+      currentFriend: 0,
     }
   }
   updateFriends = () => {
@@ -52,6 +54,21 @@ class App extends React.Component {
       return {nameValue: '', ageValue: '', emailValue: ''}
     })
   }
+  updateFriendAPI = (name, age, email) => {
+    axios
+      .put(`http://localhost:5000/friends/${this.state.currentFriend}`, {name:name, age:age, email:email})
+      .then(this.updateFriends());
+  }
+  updateFriend = (event) => {
+    event.preventDefault();
+    this.setState(state => {
+      this.updateFriendAPI(state.nameValue, parseInt(state.ageValue), state.emailValue);
+      return {nameValue: '', ageValue: '', emailValue: '', updating:false}
+    })
+  }
+  selectFriend = (id) => {
+    this.setState({currentFriend:id, updating:true})
+  }
   deleteFriend = (id) => {
     axios
       .delete(`http://localhost:5000/friends/${id}`)
@@ -60,15 +77,16 @@ class App extends React.Component {
   render () {
     return (
       <div className="App">
-        <FriendList friends={this.state.friends} deleteFriend={this.deleteFriend} />
+        <FriendList friends={this.state.friends} deleteFriend={this.deleteFriend} selectFriend={this.selectFriend} />
         <FriendForm
-          addFriend={this.addFriend}
+          addFriend={this.state.updating ? this.updateFriend : this.addFriend}
           nameInput={this.nameInputChange}
           nameValue={this.state.nameValue}
           ageInput={this.ageInputChange}
           ageValue={this.state.ageValue}
           emailInput={this.emailInputChange}
           emailValue={this.state.emailValue}
+          updating={this.state.updating}
         />
       </div>
     );

@@ -25,12 +25,17 @@ const StyledFriend = styled.div`
 `;
 
 export default function Friend(props) {
-    const { name, age, email, deleteFriend, id } = props;
+    const { name, age, email, deleteFriend, id, selectFriend } = props;
     let deleteFriendWithID = (e) => {
+        e.stopPropagation();
         deleteFriend(id);
     }
+    let selectFriendWithID = (e) => {
+        e.stopPropagation();
+        selectFriend(id);
+    }
     return (
-        <StyledFriend>
+        <StyledFriend onClick={selectFriendWithID}>
             <span>{name}</span>
             <span>{age}</span>
             <span>{email}</span>

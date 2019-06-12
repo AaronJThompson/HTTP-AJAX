@@ -3,7 +3,7 @@ import './friends.css';
 import styled from 'styled-components';
 
 export default function FriendForm(props) {
-    let { addFriend, nameInput, nameValue, ageInput, ageValue, emailInput, emailValue } = props;
+    let { addFriend, nameInput, nameValue, ageInput, ageValue, emailInput, emailValue, updating } = props;
 
     return (
         <form>
@@ -27,7 +27,7 @@ export default function FriendForm(props) {
             />
             <input
                 type='submit'
-                value='Add Friend'
+                value={updating ? 'Update Friend' : 'Add Friend'}
                 onClick={addFriend}
             />
         </form>
