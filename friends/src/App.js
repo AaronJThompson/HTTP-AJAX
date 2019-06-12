@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import FriendList from './components/FriendList';
+import FriendForm from './components/FriendFrom';
 import './App.css';
 
 class App extends React.Component {
@@ -9,7 +10,10 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      friends: []
+      friends: [],
+      nameValue: '',
+      ageValue: '',
+      emailValue: '',
     }
   }
 
@@ -26,10 +30,33 @@ class App extends React.Component {
       })
   }
 
+  nameInputChange = (event) => {
+    this.setState({nameValue: event.target.value});
+  }
+  ageInputChange = (event) => {
+    this.setState({ageValue: event.target.value});
+  }
+  emailInputChange = (event) => {
+    this.setState({emailValue: event.target.value});
+  }
+  addFriend = (event) => {
+    event.preventDefault();
+    console.log('Tried to add friend');
+  }
+
   render () {
     return (
       <div className="App">
         <FriendList friends={this.state.friends} />
+        <FriendForm
+          addFriend={this.addFriend}
+          nameInput={this.nameInputChange}
+          nameValue={this.state.nameValue}
+          ageInput={this.ageInputChange}
+          ageValue={this.state.ageValue}
+          emailInput={this.emailInputChange}
+          emailValue={this.state.emailValue}
+        />
       </div>
     );
   }
